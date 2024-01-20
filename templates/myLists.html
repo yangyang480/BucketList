@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}
+My Lists
+{% endblock %}
+
+{% block main %}
+
+<div style="margin-bottom: 20px;">
+    <button type="button" class="btn btn-info">
+        <a class="nav-link" href="/create">Create Bucket List</a>
+    </button>
+</div>
+
+{% for result in results %}
+<div style="margin-bottom: 20px; margin-left: 250px; margin-right: 250px;">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title" style="display: inline-flex; margin-right: 5px;">{{ result[2] }}</h5>
+            {% if result[6] == "New" %}
+                <span class="badge text-bg-secondary">{{ result[6] }}</span>
+            {% elif result[6] == "Pending" %}
+                <span class="badge text-bg-warning">{{ result[6] }}</span>
+            {% elif result[6] == "Completed" %}
+                <span class="badge text-bg-success">{{ result[6] }}</span>
+            {% endif %}
+            <div>Due: {{ result[3] }}</div>
+            <hr>
+            <div>Location: {{ result[4] }}</div>
+            <p class="card-text">Detail: {{ result[5] }}</p>
+            <div style="display: flex; justify-content: center;">
+                <button style="margin-right: 10px;" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#edit{{ result[0] }}">
+                    Edit
+                </button>
+                <form method="post" action="{{ url_for('.delete', id = result[0]) }}">
+                    <button class="btn btn-primary" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="edit{{result[0]}}" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block;">
+                <h4 class="modal-title" style="color:black;">Edit My Bucket List</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ url_for('.edit', id = result[0]) }}">
+                    <div class="form-group">
+                        <label for="title" class="col-form-label"><b>Title:</b></label>
+                        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title"
+                            value={{ result[2] }} type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="due-date" class="col-form-label"><b>Due Date:</b></label>
+                        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="date" name="date"
+                            value={{ result[3] }} type="date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Status" class="col-form-label"><b>Status:</b></label>
+                        <select id="changeStatus" name="changeStatus" class="form-select form-select-sm" aria-label="Large select example">
+                            <option value="New" id="New" {% if result[6] == 'New' %}selected{% endif %}>New</option>
+                            <option value="Pending" {% if result[6] == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="Completed" {% if result[6] == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location" class="col-form-label"><b>Location:</b></label>
+                        <textarea class="form-control" id="location" name="location">{{ result[4] }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label"><b>Description:</b></label>
+                        <textarea class="form-control" id="description" name="description">{{ result[5] }}</textarea>
+                    </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% else %}
+    <div style="margin-bottom: 20px;">You have no list yet.</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block main %}
+<form action="/profile">
+    <table class="table-primary">
+        <tr class="table-primary">
+            <td class="table-primary"><b>Name: </b></td>
+            <td class="table-primary">{{result[0][1]}}</td>
+        </tr>
+        <tr class="table-primary">
+            <td class="table-primary"><b>Date of Birth: </b></td>
+            <td class="table-primary">{{result[0][2]}}</td>
+        </tr>
+        <tr class="table-primary">
+            <td class="table-primary"><b>Total Bucket List: </b></td>
+            <td class="table-primary">{{count[0]}}</td>
+        </tr>
+        <tr class="table-primary">
+            <td class="table-primary"><b>Completed Bucket List: </b></td>
+            <td class="table-primary">{{completedCount[0]}}</td>
+        </tr>
+        <tr class="table-primary">
+            <td class="table-primary"><b>Pending Bucket List: </b></td>
+            <td class="table-primary">{{pendingCount[0]}}</td>
+        </tr>
+    </table>
+</form>
+
+<form  method="post" action="{{ url_for('.profileDelete', id = result[0][0]) }}">
+    <button class="btn btn-primary" type="submit">Delete Profile</button>
+</form>
+{% endblock %}

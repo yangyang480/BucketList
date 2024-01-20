@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    dashboard
+{% endblock %}
+
+{% block main %}
+    <form action="/create" method="post">
+        <div style="color: navy;">
+            <h1>
+                Welcome to Your Buckect List
+            </h1>
+            <br>
+            <h2>
+                Create Your Bucket List
+            </h2>
+            <br>
+        </div>
+        <div style="display: inline-flex;">
+            <div class="mb-3" style="margin-right: 20px;">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title" placeholder="Title" type="text">
+            </div>
+            <div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="date" name="date" placeholder="Due Date" type="date">
+            </div>
+        </div>
+        <div class="mb-3">
+            <textarea rows="1" cols="80" autocomplete="off" autofocus class="form-control mx-auto w-auto" id="location" name="location" placeholder="Location" type="text"></textarea>
+        </div>
+        <div class="mb-3">
+            <textarea rows="5" cols="80" autocomplete="off" autofocus class="form-control mx-auto w-auto" id="description" name="description" placeholder="Description" type="text"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Create</button>
+    </form>
+{% endblock %}
